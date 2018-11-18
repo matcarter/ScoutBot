@@ -9,6 +9,8 @@ These are needed to be able to run **ScoutBot**.
 - [Python 3.6](https://www.python.org/)
 - [Discord.py[Rewrite]](https://github.com/Rapptz/discord.py/tree/rewrite)
 
+    `py -m pip install -U git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py`
+
 ## Setup
 
 Edit `example-config.json` to add your own Discord Bot Token and Riot Games API Key, then save it as `config.json`.

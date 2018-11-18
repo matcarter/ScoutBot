@@ -1,53 +1,56 @@
-'''
-    TODO Create functions
-        opgg(players) - returns url of op.gg lookup for players
-        getinfo(players) - returns objects of players containing their information from Riot API
-'''
+
+# TODO Create functions
+#   opgg(players) - returns url of op.gg lookup for players
+#   getinfo(players) - returns objects of players containing their information from Riot API
+
 
 import discord
-import asyncio
+from discord.ext import commands
+from discord.ext.commands import CommandNotFound
 import json
 
+# Load the config file
 with open('config.json') as json_data_file:
     data = json.load(json_data_file)
 
+# Store config details
 token = data['token']
 prefix = data['prefix']
 key = data['key']
 
-client = discord.Client()
+# Initialize the bot
+bot = commands.Bot(command_prefix=prefix)
 
 
-@client.event
+@bot.event
 async def on_ready():
     print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
+    print(bot.user.name)
+    print(bot.user.id)
     print('------')
 
 
-@client.event
+@bot.event
 async def on_message(message):
-    # Don't reply to ourself
-    if message.author == client.user:
-        return
-
-    # Found a command
     if message.content.startswith(prefix):
-        command = message.content[1:].lower()  # Remove prefix
-        args = command.split(' ', 1)  # Get any arguments
-
-        # No arguments found
-        if len(args) == 1:
-            args = command
-        # Set arguments
-        else:
-            args = args[1]
-
-        # Ping!
-        if command == 'ping':
-            msg = '{0.author.mention} Pong!'.format(message)
-            await client.send_message(message.channel, msg)
+        print('command: ' + message.content[1:])
 
 
-client.run(token)
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        await ctx.send('Command not found!')
+        await ctx.send('Use !help to see known commands')
+
+
+@bot.command()
+async def ping(ctx):
+    await ctx.send('Pong!')
+
+
+@bot.command()
+async def test(ctx, *args):
+    await ctx.send('{} arguments: {}'.format(len(args), ', '.join(args)))
+
+
+bot.run(token)
