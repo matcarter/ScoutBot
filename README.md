@@ -10,6 +10,10 @@ These are needed to be able to run **ScoutBot**.
 - [Discord.py[Rewrite]](https://github.com/Rapptz/discord.py/tree/rewrite)
 
     `py -m pip install -U git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py`
+    
+- [Cassiopeia](https://github.com/meraki-analytics/cassiopeia)
+
+    `py -m pip install cassiopeia`
 
 ## Setup
 
