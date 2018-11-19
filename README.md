@@ -11,12 +11,12 @@ These are needed to be able to run **ScoutBot**.
 
     `py -m pip install -U git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py`
     
-- [Cassiopeia](https://github.com/meraki-analytics/cassiopeia)
+- [Riot-Watcher](https://github.com/pseudonym117/Riot-Watcher)
 
-    `py -m pip install cassiopeia`
+    `py -m pip install riotwatcher`
 
 ## Setup
 
 Edit `example-config.json` to add your own Discord Bot Token and Riot Games API Key, then save it as `config.json`.
 
-Run `python main.py` in the active directory to start the bot.
+Run `python bot.py` in the active directory to start the bot.

@@ -1,9 +1,3 @@
-
-# TODO Create functions
-#   getinfo(players) - returns objects of players containing their information from Riot API
-# TODO Create and load cogs
-
-
 import discord
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
