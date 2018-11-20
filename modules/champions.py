@@ -134,7 +134,7 @@ def get_champ_name(champ_id: str):
     for champ in champions['data']:
         champ_key = champions['data'][champ]['key']
         if champ_key == champ_id:
-            return champ
+            return champions['data'][champ]['name']
 
 
 def setup(bot):
