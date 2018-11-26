@@ -46,7 +46,7 @@ class Summoners:
         ret += '\tLevel: ' + str(summoner.get('summonerLevel')) + '\n'
         ret += '\tMastery Score: ' + str(mastery_score) + '\n'
         ret += '\tRanked: \n'
-        ret += '\t\tSolos - ' + solo_rank + '\n'
+        ret += '\t\tSolo/Duo - ' + solo_rank + '\n'
         ret += '\t\tFlex 5v5 - ' + flex_rank + '\n'
         ret += '\t\tFlex 3v3 - ' + threes_rank
 
