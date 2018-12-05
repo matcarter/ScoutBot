@@ -19,4 +19,4 @@ These are needed to be able to run **ScoutBot**.
 
 Edit `example-config.json` to add your own Discord Bot Token and Riot Games API Key, then save it as `config.json`.
 
-Run `python bot.py` in the active directory to start the bot.
+Run `python3 bot.py` in the active directory to start the bot.
