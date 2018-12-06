@@ -2,5 +2,5 @@
 	"token": "Discord Bot Token",
 	"prefix": "!",
 	"key": "Riot API Key",
-	"modules": ["summoners", "champions", "scouter"]
+	"modules": ["summoners", "champions", "scouter", "matches"]
 }

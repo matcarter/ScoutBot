@@ -74,6 +74,18 @@ class Summoners:
 
         return info
 
+    @staticmethod
+    def get_account_info(name: str):
+        summoner = watcher.summoner.by_name(default_region, name)
+
+        info = {
+            "id": summoner.get('id'),
+            "account_id": summoner.get('accountId'),
+            "revision_date": summoner.get('revisionDate')
+        }
+
+        return info
+
 
 def rank_to_string(ranked_stats):
     tier = ranked_stats.get('tier').lower().capitalize()
