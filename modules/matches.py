@@ -1,3 +1,4 @@
+import datetime
 import discord
 import json
 from discord.ext import commands
@@ -36,22 +37,25 @@ class Matches:
         print(match_history)
 
         for match in match_history.get('matches'):
-            print(match)
+            print(convert_match_reference(match))
 
 
 def convert_match_reference(match_reference):
-    champion_name = Champions.get_champ_name_by_id(match_reference.get('champion'))
+    champion_id = str(match_reference.get('champion'))
+    champion_name = Champions.get_champ_name_by_id(champion_id)
 
     match = {
         "region": match_reference.get('platformId'),
         "gameId": match_reference.get('gameId'),
         "champion": champion_name,
-        "queue": match_reference.get('platformId'),
-        "season": match_reference.get('platformId'),
-        "date": match_reference.get('platformId'),
-        "role": match_reference.get('platformId'),
-        "lane": match_reference.get('platformId')
+        "queue": match_reference.get('queue'),
+        "season": match_reference.get('season'),
+        "date": datetime.datetime.fromtimestamp(match_reference.get('timestamp')/1000.0).strftime('%m-%d-%Y %H:%M:%S'),
+        "role": match_reference.get('role'),
+        "lane": match_reference.get('lane')
     }
+
+    return match
 
 
 def setup(bot):

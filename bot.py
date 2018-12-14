@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 import json
+import time
 
 # Load the config file
 with open('config.json') as json_data_file:
@@ -17,6 +18,7 @@ description = 'A bot to scout League of Legends accounts'
 
 # Initialize the bot
 bot = commands.Bot(command_prefix=prefix, description=description)
+start_time = time.time()
 
 
 @bot.event
@@ -41,7 +43,7 @@ async def ping(ctx):
     await ctx.send('Pong!')
 
 
-@bot.command(description='Return an op.gg lookup of inputted players')
+@bot.command(description='Display an op.gg lookup of inputted players')
 async def opgg(ctx, *args):
     """Pull up op.gg for players"""
     url = 'http://na.op.gg/'
@@ -54,6 +56,13 @@ async def opgg(ctx, *args):
             url += '%2C' + args[i]
 
     await ctx.send(url)
+
+
+@bot.command(description='Display the uptime of the bot')
+async def uptime(ctx):
+    """How long has ScoutBot been alive?"""
+
+    await ctx.send(str(int(time.time() - start_time)) + ' seconds')
 
 
 if __name__ == "__main__":
