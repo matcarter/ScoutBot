@@ -20,7 +20,7 @@ class Summoners:
 
     @commands.command(name='info')
     async def get_summoner(self, ctx, name: str):
-        """Returns information on a summoner"""
+        """Display information on a summoner"""
 
         info = self.get_summoner_info(name)
 

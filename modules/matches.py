@@ -22,7 +22,7 @@ class Matches:
 
     @commands.command(name='history')
     async def get_match_history(self, ctx, name: str):
-        """Returns the match history for a given summoner"""
+        """Display the match history for a given summoner"""
 
         self.get_recent_matches(name)
 

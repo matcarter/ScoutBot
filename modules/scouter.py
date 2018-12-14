@@ -22,7 +22,7 @@ class Scouter:
 
     @commands.command(name='scout')
     async def scout(self, ctx, name: str):
-        """Returns a scouting report for given summoner(s)"""
+        """Display a scouting report for given summoner(s)"""
 
         ret = self.scout_summoner(name)
 

@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import json
 from riotwatcher import RiotWatcher
+import re
 
 # Load the config file
 with open('config.json') as json_data_file:
@@ -21,11 +22,11 @@ with open('data/static_champions.json') as json_data_file:
 class Champions:
     def __init__(self, bot):
         self.bot = bot
-        update_static_champions()
+        check_for_update()
 
     @commands.command(name='mastery')
     async def get_mastery(self, ctx, name: str, champ: str = None):
-        """Returns a players champion mastery details"""
+        """Display a players champion mastery details"""
 
         champion_mastery = self.get_champion_mastery(name, champ)
         length = len(champion_mastery)
@@ -40,7 +41,7 @@ class Champions:
 
     @commands.command(name='champion')
     async def get_champion(self, ctx, name: str):
-        """Returns information on a champion"""
+        """Display information on a champion"""
 
         name = name.lower().capitalize()
 
@@ -52,7 +53,7 @@ class Champions:
 
     @commands.command(name='rotation')
     async def rotation(self, ctx):
-        """Returns the current champion rotation"""
+        """Display the current champion rotation"""
 
         info = self.get_champion_rotation()
 
@@ -64,7 +65,7 @@ class Champions:
 
     @commands.command(name='update')
     async def update_champions(self, ctx):
-        """Update the static champion list to current patch"""
+        """Display the static champion list to current patch"""
 
         version = update_static_champions()
 
@@ -160,21 +161,31 @@ class Champions:
                 return champions['data'][champ]['name']
 
 
+def check_for_update():
+    version_data = watcher.data_dragon.versions_for_region(default_region)
+
+    current_version = list(map(int, re.findall('\d+', version_data.get('v'))))
+    static_version = list(map(int, re.findall('\d+', champions['version'])))
+
+    for i in range(3):
+        if current_version[i] == static_version[i]:
+            continue
+
+        elif current_version[i] > static_version[i]:
+            print("Updating to version " + version_data.get('v') + " from " + champions['version'])
+            update_static_champions()
+            break
+
+
 def update_static_champions():
     version_data = watcher.data_dragon.versions_for_region(default_region)
 
-    current_version = int(version_data.get('v').replace('.', ''))
-    version = int(champions['version'].replace('.', ''))
+    champs = watcher.data_dragon.champions(version_data.get('v'))
 
-    if current_version > version:
-        champs = watcher.data_dragon.champions(version_data.get('v'))
+    with open('data/static_champions.json', 'w') as outfile:
+        json.dump(champs, outfile)
 
-        with open('data/static_champions.json', 'w') as outfile:
-            json.dump(champs, outfile)
-
-        print('Updated static_champions file to latest version')
-
-    return version_data.get('v')
+    return champs.get('v')
 
 
 def champion_id_by_name(name: str):
