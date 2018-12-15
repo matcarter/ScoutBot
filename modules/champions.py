@@ -22,7 +22,7 @@ with open('data/static_champions.json') as json_data_file:
 class Champions:
     def __init__(self, bot):
         self.bot = bot
-        check_for_update()
+        check_for_updates()
 
     @commands.command(name='mastery')
     async def get_mastery(self, ctx, name: str, champ: str = None):
@@ -33,6 +33,7 @@ class Champions:
         ret = 'Champion (Mastery Level) - Mastery Points\n\n'
 
         for i in range(length):
+            ret += '\t'
             ret += champion_mastery[i].get('name')
             ret += ' (' + champion_mastery[i].get('level') + ')'
             ret += ' - ' + champion_mastery[i].get('points') + '\n'
@@ -65,11 +66,17 @@ class Champions:
 
     @commands.command(name='update')
     async def update_champions(self, ctx):
-        """Display the static champion list to current patch"""
+        """Update the static champion list to current patch"""
 
         version = update_static_champions()
 
         await ctx.send('Version: ' + version)
+
+    @commands.command(name='version')
+    async def get_version(self, ctx):
+        """Display the current version of the game"""
+
+        await ctx.send('Version ' + champions['version'])
 
     @staticmethod
     def get_champion_mastery(name: str, champ: str = None):
@@ -161,7 +168,7 @@ class Champions:
                 return champions['data'][champ]['name']
 
 
-def check_for_update():
+def check_for_updates():
     version_data = watcher.data_dragon.versions_for_region(default_region)
 
     current_version = list(map(int, re.findall('\d+', version_data.get('v'))))

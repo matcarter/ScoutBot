@@ -23,6 +23,7 @@ start_time = time.time()
 
 @bot.event
 async def on_ready():
+    print('------')
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
@@ -73,4 +74,5 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(module, exc))
 
+    print('Loading dependencies...')
     bot.run(token)
