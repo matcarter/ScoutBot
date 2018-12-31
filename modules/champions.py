@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import json
+from requests import HTTPError
 from riotwatcher import RiotWatcher
 import re
 
@@ -29,6 +30,11 @@ class Champions:
         """Display a players champion mastery details"""
 
         champion_mastery = self.get_champion_mastery(name, champ)
+
+        if champion_mastery is None:
+            await ctx.send('Failed to fetch summoner!')
+            return
+
         length = len(champion_mastery)
         ret = 'Champion (Mastery Level) - Mastery Points\n\n'
 
@@ -39,18 +45,6 @@ class Champions:
             ret += ' - ' + champion_mastery[i].get('points') + '\n'
 
         await ctx.send(ret)
-
-    @commands.command(name='champion')
-    async def get_champion(self, ctx, name: str):
-        """Display information on a champion"""
-
-        name = name.lower().capitalize()
-
-        champ = 'Name: ' + champions['data'][name]['name'] + '\n'
-        champ += '\tTitle: ' + champions['data'][name]['title'] + '\n'
-        champ += '\tBlurb: ' + champions['data'][name]['blurb']
-
-        await ctx.send(champ)
 
     @commands.command(name='rotation')
     async def rotation(self, ctx):
@@ -82,7 +76,11 @@ class Champions:
     def get_champion_mastery(name: str, champ: str = None):
         champion_mastery = []
 
-        summoner = watcher.summoner.by_name(default_region, name)
+        try:
+            summoner = watcher.summoner.by_name(default_region, name)
+        except HTTPError:
+            return None
+
         summoner_id = summoner['id']
 
         if champ is None:
@@ -154,11 +152,11 @@ class Champions:
 
     @staticmethod
     def get_champ_id_by_name(name: str):
-        name = name.lower().capitalize()
-
-        champ_id = champions['data'][name]['key']
-
-        return int(champ_id)
+        for champ in champions['data']:
+            if champ['id'].lower() == name.lower():
+                return int(champ['key'])
+            elif champ['name'].lower() == name.lower():
+                return int(champ['key'])
 
     @staticmethod
     def get_champ_name_by_id(champ_id: str):

@@ -1,8 +1,9 @@
-import discord
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 import json
 import time
+
+from objects.player import Player
 
 # Load the config file
 with open('config.json') as json_data_file:
@@ -60,13 +61,15 @@ async def opgg(ctx, *args):
 
 
 @bot.command(description='Display the uptime of the bot')
-async def uptime(ctx):
+async def up_time(ctx):
     """How long has ScoutBot been alive?"""
 
     await ctx.send(str(int(time.time() - start_time)) + ' seconds')
 
 
 if __name__ == "__main__":
+    print('Loading dependencies...')
+
     for module in modules:
         try:
             bot.load_extension('modules.' + module)
@@ -74,5 +77,4 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(module, exc))
 
-    print('Loading dependencies...')
     bot.run(token)

@@ -1,8 +1,9 @@
 import discord
 import json
 from discord.ext import commands
+from requests import HTTPError
 from riotwatcher import RiotWatcher
-from .summoners import Summoners
+from objects.player import Player
 from .champions import Champions
 
 # Load the config file
@@ -26,11 +27,17 @@ class Scouter:
 
         ret = self.scout_summoner(name)
 
+        if ret is None:
+            ret = 'Failed to scout summoner!'
+
         await ctx.send(ret)
 
     @staticmethod
     def scout_summoner(name: str):
-        summoner_info = Summoners.get_summoner_info(name)
+        try:
+            player = Player(name)
+        except HTTPError:
+            return None
         champion_mastery = Champions.get_champion_mastery(name)
 
         ret = ''
@@ -43,7 +50,7 @@ class Scouter:
             Most Mastery: Top 5 mastery on champs
         """
 
-        ret += summoner_info.get('name') + ' (Role) - ' + summoner_info.get('solo_duo_tier') + '\n'
+        ret += player.name + ' (Role) - ' + player.solo_rank + '\n'
         ret += '\tOTP: ' + '\n'
         ret += '\tMost Played: ' + '\n'
         ret += '\tRecently Played: ' + '\n'
