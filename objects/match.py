@@ -57,8 +57,8 @@ class Match:
             blue += '\t\t{}\t\t{}\t\t{}\t\t{}\t\t{}\t\t{}\t\t{}\n'.format(player.champion, player.name,
                                                                           player.solo_duo_tier, kda_str,
                                                                           str(player.total_damage_to_champions),
-                                                                          str(player.vision_score),
-                                                                          str(player.total_minions_killed))
+                                                                          str(player.total_minions_killed),
+                                                                          str(player.vision_score))
 
         red = '\nRed Side - ' + ('Defeat' if self.blue_side_win else 'Victory') + '\n'
         for player in self.red_side:
@@ -67,8 +67,8 @@ class Match:
             red += '\t\t{}\t\t{}\t\t{}\t\t{}\t\t{}\t\t{}\t\t{}\n'.format(player.champion, player.name,
                                                                          player.solo_duo_tier, kda_str,
                                                                          str(player.total_damage_to_champions),
-                                                                         str(player.vision_score),
-                                                                         str(player.total_minions_killed))
+                                                                         str(player.total_minions_killed),
+                                                                         str(player.vision_score))
 
         return header + blue + red
 

@@ -189,6 +189,9 @@ def update_static_champions():
 
     with open('data/static_champions.json', 'w') as outfile:
         json.dump(champs, outfile)
+        
+        global champions
+        champions = json.load(outfile)
 
     return champs.get('v')
 
